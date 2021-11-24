@@ -1,0 +1,111 @@
+git for devops
+--------------
+git init # to initialize the pwd as local git repo. nothing changes even if exectued on existing one
+git status # to check whether files have to be modified/untracked/to be commited
+git status -s # consize output
+git log # to c history of all the commits with commit messages, commit id,committd time stamp, author name and email
+git add file1.txt file2.txt # to add local files into staging area
+#git add .
+#git add *
+#git add *.php *.java
+git ls-files # to check files in staging area/ tracked by git
+git commit -m "commit message" # to add whatever files in staging area to local repo
+# git commit -a -m "commiting the already committed file after modifying" # if not commiting first time, directly we can add the files to staging area and commit
+git config --list # to c all git configurations like user.name user.email etc.
+git config --global user.name "name"
+git config --global user.email "name123@gmail.com"
+git config user.email # display user email. similarly user.name etc.
+git config user.email "userabc@gmail.com" # without --global means only for current repo. with --global means for any repo you will create.
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+git log
+-------
+To view history of all commits.
+git log --help # for different options on git log
+
+---------how to c the log info of particulat file----------
+git log . # all files
+git log file1.txt # all commits related to file1.txt
+
+git log --oneline
+-----------------
+	to view the commits in one line each(short commit id, commit message)
+
+git log -n 5 # only show recent 5 commits only
+git log -n 3 --oneline # only show recent 3 commits in one line each
+git log -2 # same as git log -n 2
+git log --max-count=2 # same as above
+----------------------------------------------------
+git log --grep="regexpattern" # for searching in commit message only
+git log --grep="*.txt modified" --oneline # search for *.txt modified in commit message and then display in one line.
+-----------------------------------------------------
+git log --since="a week ago"
+git log --since="2021-12-23" # 23rd and after that day till now
+git log --since="1 hour ago"
+git log --since="1 hour 5 minutes ago"
+git log --after="2021-12-23" # same as above
+---------------------------------------------------
+git log --until="same as above pattern" # it is also inclusive of the day mentioned and before, in the pattern.
+git log --before="same as above pattern" 
+---------------------------------------------------
+git log --author=nethu --online # to find the commits of particular author
+---------------------------------------------------
+git log --decorate # to c some extra properties of each commit like tags, etc
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+git diff(always compared from right to left)
+--------
+
+ -----------   cmp  ------------   cmp	----------	 cmp  -----------
+|working dir| <--- |staging area| <--- |local repo| <--- |remote repo|
+ -----------	    ------------		----------	      -----------
+
+To compare file/files in staging area and working directory
+-----------------------------------------------------------
+git diff file1.txt --> (file1.txt in staging area - file1.txt in working dir)
+git diff --> compare all the files for staging and working areas
+
+To compare file in last commit and working directory  
+--------------- ------------------------------------
+git diff head file1.txt --> (head pointing to most recent commit)
+
+To compare file in last commit and staged copy
+----------------------------------------------
+Note: here it always shows the change in staged copy only. no matter how the arguments are passed.
+git diff --staged file1.txt
+git diff --staged head file.txt --> same as above. shows change in staged copy only w.r.t recent commit
+
+To compare working copy with specific commit
+--------------------------------------------
+git diff 1234567 file1.txt --> 1234567 is commit id. can be obtained by git log --online 
+
+To compare staged copy with specific commit
+-------------------------------------------
+Note: it only shows the change in staged copy. no matter how the arguments are passed.
+git diff --staged 1234567 file1.txt 
+git diff 1234567 --staged file1.txt
+
+To compare 2 specified commits
+------------------------------
+git diff 1234567 7654321 --> destination(1234567) is more recent commit than the source(7654321)
+
+To compare most recent and most recent but one commit
+-----------------------------------------------------
+git diff head head~1 file1.txt
+git diff head head^1 file1.txt --> same as above
+git diff head head^ file1.txt --> by default it takes 1
+
+To compare all files b/w two commits
+------------------------------------
+git diff 1234567 7654321
+git diff head^ head 
+git diff head head~1
+
+To compare two branches
+-----------------------
+git diff master test-branch
+
+To compare local repo and remote repo
+-------------------------------------
+git diff master origin/master
